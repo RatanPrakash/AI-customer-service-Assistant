@@ -1,24 +1,44 @@
 import datetime
 import speech_recognition as sr
 import os
+from google.cloud import texttospeech
 
-# def say(text):
-#     os.system(f"""say "{text}" """)
+def GoogleTTS(text, filename):
+    """Synthesizes speech from the input string of text."""
+    client = texttospeech.TextToSpeechClient.from_service_account_json("ai-customer-service-428015-b73c28091855.json")
+
+    input_text = texttospeech.SynthesisInput(text=text)
+
+    # Note: the voice can also be specified by name.
+    # Names of voices can be retrieved with client.list_voices().
+    voice = texttospeech.VoiceSelectionParams(
+        language_code="en-IN",
+        name="en-IN-Wavenet-A",
+    )
+
+    audio_config = texttospeech.AudioConfig(
+        audio_encoding=texttospeech.AudioEncoding.LINEAR16,
+        speaking_rate=1
+    )
+
+    response = client.synthesize_speech(
+        request={"input": input_text, "voice": voice, "audio_config": audio_config}
+    )
+
+    # The response's audio_content is binary.
+    with open(f"{filename}", "wb") as out:
+        out.write(response.audio_content)
+        print(f'Audio content written to file "{filename}"')
+
+def speech(text, filename):
+    print("Google tts is generating voice output.")
+    GoogleTTS(text, filename)
 
 def say(text):
-    print("OpenAI tts is being called.")
-    from pathlib import Path
-    from openai import OpenAI
-    from IPython.display import Audio
-    client = OpenAI()
-    speech_file_path = "FridayResponses/speech.mp3"
-    response = client.audio.speech.create(
-    model="tts-1",
-    voice="alloy",
-    input=text
-    )
-    response.stream_to_file(speech_file_path)
-    os.system(f"mpg123 {speech_file_path}")
+    filename = "assistant-replies.wav"
+    speech(text, filename)
+    os.system(f"afplay {filename}")
+
 
 def speechToText():
     r = sr.Recognizer()

@@ -1,3 +1,6 @@
 *.DS_Store
 *.env
 csai
+__pycache__
+test.ipynb
+ai-customer-service-428015-b73c28091855.json
