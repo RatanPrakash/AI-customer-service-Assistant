@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
 import google.generativeai as genai
+import os
 
 
 load_dotenv()
 
-GOOGLE_API_KEY='AIzaSyDRJK5mRSBFq6u6Ip6Nw5pb9JDIJ01rZD4'
-# google_api_key = os.getenv("GOOGLE_API_KEY") # Get the API key from the environment variables
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") # Get the API key from the environment variables
 genai.configure(api_key=GOOGLE_API_KEY)
 
 def init_context():
