@@ -33,4 +33,13 @@ def AI(userResponse, chat):
     return ai_answer
 
 def end_call(chat):
-    pass
+    json_export = chat.send_message("""the conversation has ended. Now export the complaint details to a json file. 
+                                    write the entire json file into text. maintain proper formatting.
+                                    json file should contain four keys: name, phone, address, and complaint_details.""")
+    file_path = "customer_service_chat.json"
+    try:
+        with open(file_path, "w") as file:
+            file.write(json_export.text[7:-3])
+        print(f"Text written to '{file_path}' successfully.")
+    except Exception as e:
+        print(f"Error occurred: {e}")

@@ -54,13 +54,6 @@ def speechToText():
             return ""
             # return "Sorry. I couldn't understand that. Can you repeat?"
 
-def write_text_to_file(text, file_path):
-    try:
-        with open(file_path, 'w') as file:  # Open the file in write mode
-            file.write(text)  # Write the text to the file
-        print(f"Text written to '{file_path}' successfully.")
-    except Exception as e:
-        print(f"Error occurred: {e}")
 
 
 
